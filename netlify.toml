@@ -1,5 +1,5 @@
 # ── Netlify Production Config ──
-# Future Marketing Studio
+# Future Marketing Studio — futuremark.studio
 
 [build]
   publish = "."
@@ -8,20 +8,42 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    X-XSS-Protection = "1; mode=block"
+    # Clickjacking protection — block all framing
+    X-Frame-Options = "DENY"
+    # Prevents MIME-type sniffing attacks
     X-Content-Type-Options = "nosniff"
+    # Minimal referrer data sent cross-origin
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    # Disable browser features unused by this site
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+    # Force HTTPS for 2 years — preload list eligible
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    # Prevent cross-origin window attacks
+    Cross-Origin-Opener-Policy = "same-origin"
+    # Prevent other sites embedding our resources
+    Cross-Origin-Resource-Policy = "same-origin"
+    # Disable DNS prefetch — reduces info leakage
+    X-DNS-Prefetch-Control = "off"
+    # Content Security Policy — strict allowlist, zero unsafe-inline
+    Content-Security-Policy = "default-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://formspree.io https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://stats.g.doubleclick.net; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io; manifest-src 'self'; worker-src 'none'; upgrade-insecure-requests;"
 
-# ── Long-term cache: images, fonts, scripts ──
+# ── Long-term cache: images, fonts, scripts, css ──
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# ── Short cache: HTML pages (revalidate on deploy) ──
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ── Short cache: HTML pages (revalidate on every deploy) ──
 [[headers]]
   for = "/*.html"
   [headers.values]
@@ -32,14 +54,14 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
-# ── Redirect www → apex ──
+# ── Redirect www → apex (301 permanent) ──
 [[redirects]]
-  from = "https://www.futuremark.studio/*"
-  to   = "https://futuremark.studio/:splat"
+  from   = "https://www.futuremark.studio/*"
+  to     = "https://futuremark.studio/:splat"
   status = 301
   force  = true
 
-# ── 404 page (uses contact page as fallback) ──
+# ── 404 fallback ──
 [[redirects]]
   from   = "/*"
   to     = "/index.html"

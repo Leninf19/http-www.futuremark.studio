@@ -118,6 +118,22 @@ if (contactForm) {
     const btn = document.getElementById("submitBtn");
     const success = document.getElementById("formSuccess");
 
+    /* Honeypot check — silently abort if bot filled the hidden field */
+    const honey = contactForm.querySelector('[name="_gotcha"]');
+    if (honey && honey.value) return;
+
+    /* Client-side validation */
+    const nameVal = (contactForm.querySelector('[name="name"]')?.value || "").trim();
+    const emailVal = (contactForm.querySelector('[name="email"]')?.value || "").trim();
+    const msgVal = (contactForm.querySelector('[name="message"]')?.value || "").trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+
+    if (!nameVal || !emailVal || !msgVal || !emailOk) {
+      btn.textContent = "Please fill all fields correctly";
+      setTimeout(() => { btn.textContent = "Send Inquiry"; }, 3000);
+      return;
+    }
+
     btn.textContent = "Sending...";
     btn.disabled = true;
 
