@@ -1,0 +1,46 @@
+# ── Netlify Production Config ──
+# Future Marketing Studio
+
+[build]
+  publish = "."
+
+# ── Security Headers (all pages) ──
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+
+# ── Long-term cache: images, fonts, scripts ──
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ── Short cache: HTML pages (revalidate on deploy) ──
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ── Redirect www → apex ──
+[[redirects]]
+  from = "https://www.futuremark.studio/*"
+  to   = "https://futuremark.studio/:splat"
+  status = 301
+  force  = true
+
+# ── 404 page (uses contact page as fallback) ──
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 404
