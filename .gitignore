@@ -3,3 +3,4 @@ Thumbs.db
 *.psd
 temporary screenshots/
 node_modules/
+*.psd
