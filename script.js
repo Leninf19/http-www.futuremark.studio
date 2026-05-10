@@ -109,6 +109,122 @@ document.querySelectorAll("a, button, .service-card, .preview-card, .gallery-ite
   el.addEventListener("mouseleave", () => cursor.classList.remove("cursor-expand"));
 });
 
+/* ── VISIBILITY SECTION ── */
+
+(function initVisibility() {
+  const visGrid  = document.getElementById('visGrid');
+  const visHub   = document.getElementById('visHub');
+  const visSvg   = document.getElementById('visSvg');
+  const nodes    = document.querySelectorAll('.vis-node');
+
+  if (!visGrid || !visHub || !visSvg || !nodes.length) return;
+
+  /* Staggered scroll reveal */
+  const revealEls = document.querySelectorAll('.vis-header, .vis-node, .vis-cta');
+  const delays    = [0, 100, 175, 250, 325, 400, 500];
+
+  revealEls.forEach((el, i) => {
+    el.classList.add('hidden');
+    el.style.transitionDelay = `${delays[i] !== undefined ? delays[i] : i * 80}ms`;
+  });
+
+  const staggerObs = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('show');
+        staggerObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.06 });
+
+  revealEls.forEach((el) => staggerObs.observe(el));
+
+  /* Custom cursor expand on nodes */
+  const cur = document.querySelector('.cursor');
+  if (cur) {
+    nodes.forEach((node) => {
+      node.addEventListener('mouseenter', () => cur.classList.add('cursor-expand'));
+      node.addEventListener('mouseleave', () => cur.classList.remove('cursor-expand'));
+    });
+  }
+
+  /* SVG connector lines */
+  function drawLines() {
+    visSvg.innerHTML = '';
+    if (window.innerWidth <= 768) return;
+
+    const bodyRect  = visGrid.parentElement.getBoundingClientRect();
+    const hubCore   = visHub.querySelector('.vis-hub-core');
+    if (!hubCore) return;
+    const hubRect   = hubCore.getBoundingClientRect();
+    const hx        = hubRect.left - bodyRect.left + hubRect.width  / 2;
+    const hy        = hubRect.top  - bodyRect.top  + hubRect.height / 2;
+
+    nodes.forEach((node, i) => {
+      const dot = node.querySelector('.vis-dot');
+      if (!dot) return;
+      const dotRect = dot.getBoundingClientRect();
+      const dx = dotRect.left - bodyRect.left + dotRect.width  / 2;
+      const dy = dotRect.top  - bodyRect.top  + dotRect.height / 2;
+
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', hx);
+      line.setAttribute('y1', hy);
+      line.setAttribute('x2', dx);
+      line.setAttribute('y2', dy);
+      line.setAttribute('class', 'vis-line');
+      line.setAttribute('data-idx', i);
+      visSvg.appendChild(line);
+    });
+  }
+
+  /* Activate / deactivate */
+  function setActive(node, on, idx) {
+    node.classList.toggle('is-active', on);
+    const line = visSvg.querySelector(`[data-idx="${idx}"]`);
+    if (line) line.classList.toggle('is-active', on);
+  }
+
+  const isMobile = () => window.innerWidth <= 768;
+
+  nodes.forEach((node, i) => {
+    /* Desktop hover */
+    node.addEventListener('mouseenter', () => { if (!isMobile()) setActive(node, true,  i); });
+    node.addEventListener('mouseleave', () => { if (!isMobile()) setActive(node, false, i); });
+
+    /* Mobile tap toggle */
+    node.addEventListener('click', () => {
+      if (isMobile()) {
+        const wasActive = node.classList.contains('is-active');
+        nodes.forEach((n, j) => setActive(n, false, j));
+        if (!wasActive) setActive(node, true, i);
+      }
+    });
+  });
+
+  /* Draw on section enter + on resize */
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(drawLines, 80);
+  }, { passive: true });
+
+  const visSection = document.querySelector('.visibility-section');
+  if (visSection) {
+    const enterObs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          drawLines();
+          enterObs.unobserve(visSection);
+        }
+      });
+    }, { threshold: 0.12 });
+    enterObs.observe(visSection);
+  } else {
+    setTimeout(drawLines, 150);
+  }
+})();
+
 /* ── CONTACT FORM (FORMSPREE AJAX) ── */
 
 const contactForm = document.getElementById("contactForm");
