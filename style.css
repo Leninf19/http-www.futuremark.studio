@@ -1518,12 +1518,12 @@ body.menu-open {
 .project-image {
   position: relative;
   overflow: visible;
-  max-height: 680px;
+  max-height: 520px;
 }
 
 .project-image img {
   width: 100%;
-  max-height: 680px;
+  max-height: 520px;
   display: block;
   object-fit: contain;
   object-position: center top;
@@ -1571,11 +1571,11 @@ body.menu-open {
   }
 
   .project-image {
-    max-height: 480px;
+    max-height: 380px;
   }
 
   .project-image img {
-    max-height: 480px;
+    max-height: 380px;
   }
 }
 
@@ -1912,7 +1912,7 @@ body.menu-open {
 
 .campaign-card {
   position: relative;
-  height: clamp(240px, 23vw, 380px);
+  height: clamp(160px, 15vw, 230px);
   overflow: hidden;
   background: #111;
   border: 1px solid rgba(255,255,255,0.07);
@@ -1957,7 +1957,7 @@ body.menu-open {
     gap: clamp(6px, 1vw, 12px);
   }
   .campaign-card {
-    height: clamp(220px, 28vw, 340px);
+    height: clamp(150px, 20vw, 240px);
   }
 }
 
@@ -1967,11 +1967,11 @@ body.menu-open {
     gap: 8px;
   }
   .campaign-card {
-    height: clamp(180px, 44vw, 260px);
+    height: clamp(130px, 34vw, 200px);
   }
   .campaign-card:last-child {
     grid-column: 1 / -1;
-    height: clamp(160px, 38vw, 220px);
+    height: clamp(120px, 28vw, 170px);
   }
 }
 
@@ -1984,8 +1984,8 @@ body.menu-open {
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: clamp(180px, 20vw, 280px);
-  gap: clamp(8px, 1.2vw, 18px);
+  grid-auto-rows: clamp(130px, 13vw, 190px);
+  gap: clamp(6px, 1vw, 14px);
 }
 
 .gallery-item {
@@ -2019,7 +2019,7 @@ body.menu-open {
 @media (max-width: 900px) {
   .gallery-grid {
     grid-template-columns: repeat(6, 1fr);
-    grid-auto-rows: clamp(160px, 28vw, 260px);
+    grid-auto-rows: clamp(120px, 22vw, 200px);
   }
 
   .gallery-item {
@@ -2039,8 +2039,8 @@ body.menu-open {
 @media (max-width: 600px) {
   .gallery-grid {
     grid-template-columns: 1fr 1fr;
-    grid-auto-rows: clamp(140px, 42vw, 220px);
-    gap: 8px;
+    grid-auto-rows: clamp(110px, 32vw, 170px);
+    gap: 6px;
   }
 
   .gallery-item,
