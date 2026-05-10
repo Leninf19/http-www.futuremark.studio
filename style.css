@@ -2716,13 +2716,39 @@ body.menu-open {
     text-align: center;
   }
 
+  /* 2-col grid: brand spans full width on top, nav cols sit 2-per-row */
   .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 36px;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px 20px;
   }
 
+  /* Brand col: full width + centered */
   .footer-brand-col {
-    grid-column: auto;
+    grid-column: 1 / -1;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-tagline {
+    text-align: center;
+  }
+
+  .footer-socials {
+    justify-content: center;
+  }
+
+  /* Get In Touch has long email — let it span full width */
+  .footer-nav-col:last-child {
+    grid-column: 1 / -1;
+    align-items: center;
+  }
+
+  .footer-nav-col:last-child .footer-links {
+    align-items: center;
+  }
+
+  .footer-nav-col:last-child .footer-links li a:hover {
+    transform: none;
   }
 
   .footer-bottom-inner {
