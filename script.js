@@ -225,6 +225,43 @@ document.querySelectorAll("a, button, .service-card, .preview-card, .gallery-ite
   }
 })();
 
+/* ── HOME NAV LINK (mobile only) ── */
+
+(function injectHomeLink() {
+  const nav = document.getElementById('navLinks');
+  if (!nav) return;
+  const link = document.createElement('a');
+  link.href = 'index.html';
+  link.textContent = 'Home';
+  link.className = 'nav-home-link';
+  const current = window.location.pathname.split('/').pop() || 'index.html';
+  if (current === 'index.html' || current === '') link.classList.add('nav-active');
+  nav.insertBefore(link, nav.firstChild);
+
+  link.addEventListener('click', () => {
+    nav.classList.remove('active');
+    const btn = document.getElementById('menuBtn');
+    if (btn) { btn.classList.remove('active'); btn.setAttribute('aria-expanded', 'false'); }
+    document.body.classList.remove('menu-open');
+  });
+})();
+
+/* ── BACK TO TOP ── */
+
+(function initBackToTop() {
+  const btn = document.createElement('button');
+  btn.className = 'back-top-btn';
+  btn.setAttribute('aria-label', 'Back to top');
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 12V4M4 8l4-4 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  document.body.appendChild(btn);
+
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+})();
+
 /* ── CONTACT FORM (FORMSPREE AJAX) ── */
 
 const contactForm = document.getElementById("contactForm");

@@ -3312,3 +3312,218 @@ body.menu-open {
   tab-size: 0;
 }
 
+/* ── BACK TO TOP BUTTON ── */
+
+.back-top-btn {
+  position: fixed;
+  bottom: 26px;
+  right: 20px;
+  z-index: 900;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(10,10,10,0.92);
+  border: 1px solid rgba(226,59,53,0.32);
+  color: rgba(255,255,255,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.28s ease, transform 0.28s ease, border-color 0.22s ease, background 0.22s ease, color 0.22s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.back-top-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.back-top-btn:hover {
+  border-color: rgba(226,59,53,0.75);
+  background: rgba(226,59,53,0.12);
+  color: white;
+}
+
+.back-top-btn:active {
+  transform: translateY(2px);
+}
+
+/* ── HOME NAV LINK (mobile-only, injected by JS) ── */
+
+.nav-home-link {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .nav-home-link {
+    display: block !important;
+  }
+}
+
+/* ── FOOTER LOGO — MOBILE CENTERING FIX ── */
+
+@media (max-width: 600px) {
+  .footer-logo-link {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 100%;
+    margin-bottom: 18px;
+  }
+
+  .footer-logo-img {
+    width: 155px;
+  }
+}
+
+/* ── VISIBILITY SECTION — IPHONE (≤430px) ── */
+
+@media (max-width: 430px) {
+  .visibility-section {
+    padding: 76px 0 64px;
+  }
+
+  .vis-header {
+    margin-bottom: 36px;
+  }
+
+  .vis-grid {
+    gap: 30px;
+  }
+
+  .vis-hub-col {
+    overflow: hidden;
+    height: 185px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .vis-hub {
+    width: 130px;
+    height: 130px;
+  }
+
+  .vis-hub-core {
+    width: 90px;
+    height: 90px;
+  }
+
+  .vis-hub-core span {
+    font-size: 13px;
+    letter-spacing: 3px;
+  }
+
+  .vis-hub-core small {
+    font-size: 8px;
+    letter-spacing: 2px;
+    margin-top: 3px;
+  }
+
+  .vis-ring.r1 {
+    width: 104px;
+    height: 104px;
+  }
+
+  .vis-ring.r2 {
+    width: 136px;
+    height: 136px;
+  }
+
+  .vis-ring.r3 {
+    width: 170px;
+    height: 170px;
+  }
+
+  .vis-nodes {
+    gap: 6px;
+  }
+
+  .vis-node {
+    grid-template-columns: 52px 1fr 20px;
+    gap: 10px;
+    padding: 14px 14px;
+  }
+
+  .vis-abbr {
+    font-size: 20px;
+    min-width: 36px;
+  }
+
+  .vis-node-content h3 {
+    font-size: 11px;
+    letter-spacing: 0.8px;
+  }
+
+  .vis-cta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 36px;
+  }
+}
+
+/* ── GLOBAL SECTION POLISH — IPHONE (≤430px) ── */
+
+@media (max-width: 430px) {
+  .home-services,
+  .process-section,
+  .industries-section,
+  .premium-section,
+  .editorial-section,
+  .intro-section {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+
+  .portfolio-section,
+  .campaigns-section,
+  .gallery-section,
+  .about-section,
+  .values-section,
+  .contact-section {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+
+  /* Hero headings — tighter on very small screens */
+  .page-hero .container h1 {
+    font-size: clamp(48px, 14vw, 72px);
+    letter-spacing: 0px;
+  }
+
+  .contact-hero .container h1 {
+    font-size: clamp(48px, 14vw, 72px);
+  }
+
+  /* Footer CTA headline — prevent overflow on iPhone SE */
+  .footer-cta-headline {
+    font-size: clamp(44px, 12.5vw, 72px);
+  }
+
+  /* Process steps — tighter vertical rhythm */
+  .process-grid {
+    gap: 28px;
+  }
+
+  /* Section header spacing */
+  .section-header {
+    margin-bottom: 40px;
+    gap: 16px;
+  }
+
+  /* Back-to-top repositioned for iPhone safe area */
+  .back-top-btn {
+    bottom: 22px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
+  }
+}
+
